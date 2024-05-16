@@ -1,0 +1,24 @@
+{
+  "Version": "2012-10-17",
+  "Id": "EFSPolicy",
+  "Statement": [
+    {
+      "Sid": "EFSPermissionsForECSTask",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "${mp_efs_ecs_role_arn}"
+      },
+      "Resource": "${mp_efs_file_system_arn}",
+      "Action": [
+        "elasticfilesystem:ClientMount",
+        "elasticfilesystem:ClientWrite",
+        "elasticfilesystem:ClientRootAccess"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "elasticfilesystem:AccessPointArn": "arn:aws:elasticfilesystem:${mp_efs_region}:${mp_efs_account_id}:access-point/${mp_efs_access_point_id}"
+        }
+      }
+    }
+  ]
+}

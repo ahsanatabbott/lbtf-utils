@@ -1,0 +1,28 @@
+{
+  "name": "labelstudio",
+  "image": "heartexlabs/label-studio:latest",
+  "essential": true,
+    "mountPoints": [
+        {
+            "sourceVolume": "${stage}-${customer_id}-${component}",
+            "containerPath": "/label-studio/data",
+            "readOnly": false
+        }
+    ],
+
+  "portMappings": [
+    {
+      "containerPort": ${app_port},
+      "hostPort": ${app_port},
+      "protocol": "tcp"
+    }
+  ],
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-group": "/ecs/${project_name}-labelstudio",
+      "awslogs-region": "${aws_region}",
+      "awslogs-stream-prefix": "${customer_id}-${stage}-${component}"
+    }
+  }
+}
